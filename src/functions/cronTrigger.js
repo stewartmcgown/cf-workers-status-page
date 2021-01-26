@@ -6,6 +6,7 @@ import {
   getCheckLocation,
   getKVMonitors,
   setKVMonitors,
+  notifyGoogleChat,
 } from './helpers'
 
 function getDate() {
@@ -75,6 +76,15 @@ export async function processCronTrigger(event) {
       SECRET_SLACK_WEBHOOK_URL !== 'default-gh-action-secret'
     ) {
       event.waitUntil(notifySlack(monitor, monitorOperational))
+    }
+
+    // Send Google Chat message on monitor change
+    if (
+      monitorStatusChanged &&
+      typeof SECRET_GOOGLE_CHAT_WEBHOOK_URL !== 'undefined' &&
+      SECRET_GOOGLE_CHAT_WEBHOOK_URL !== 'default-gh-action-secret'
+    ) {
+      event.waitUntil(notifyGoogleChat(monitor, monitorOperational))
     }
 
     // Send Telegram message on monitor change

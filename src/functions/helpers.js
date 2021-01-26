@@ -23,6 +23,55 @@ export async function setKV(key, value, metadata, expirationTtl) {
   return KV_STATUS_PAGE.put(key, value, { metadata, expirationTtl })
 }
 
+export async function notifyGoogleChat(monitor, operational) {
+  const payload = {
+    cards: [
+      {
+        sections: [
+          {
+            widgets: [
+              {
+                keyValue: {
+                  topLabel: `Status`,
+                  content: `Monitor *${
+                    monitor.name
+                  }* changed status to *${getOperationalLabel(operational)}*`,
+                  contentMultiline: 'false',
+                  onClick: {
+                    openLink: {
+                      url: config.settings.url,
+                    },
+                  },
+                  icon: 'STAR',
+                  button: {
+                    textButton: {
+                      text: 'REVIEW',
+                      onClick: {
+                        openLink: {
+                          url: config.settings.url,
+                        },
+                      },
+                    },
+                  },
+                },
+              },
+            ],
+          },
+        ],
+      },
+    ],
+  
+  }
+
+  return await fetch(SECRET_GOOGLE_CHAT_WEBHOOK_URL, {
+        method: 'POST',
+        headers: {
+          'Content-Type': 'application/json; charset=UTF-8',
+        },
+        body: JSON.stringify(payload),
+      });
+}
+
 export async function notifySlack(monitor, operational) {
   const payload = {
     attachments: [
