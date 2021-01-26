@@ -32,7 +32,7 @@ export async function notifyGoogleChat(monitor, operational) {
             widgets: [
               {
                 keyValue: {
-                  topLabel: `Status`,
+                  topLabel: `${operational ? '✅ Fixed' : '❌ Broken'}`,
                   content: `Monitor *${
                     monitor.name
                   }* changed status to *${getOperationalLabel(operational)}*`,
