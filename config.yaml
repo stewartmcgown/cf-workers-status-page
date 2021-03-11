@@ -23,13 +23,6 @@ monitors:
     expectStatus: 200 # operational status, default=200
     followRedirect: false # should fetch follow redirects, default=false
     
-  - id: webapp # unique identifier
-    name: ecoeats.uk
-    url: 'https://ecoeats.uk' # URL to fetch
-    method: GET # default=GET
-    expectStatus: 200 # operational status, default=200
-    followRedirect: false # should fetch follow redirects, default=false
-    
   - id: blog # unique identifier
     name: blog.ecoeats.uk
     url: 'https://blog.ecoeats.uk' # URL to fetch
